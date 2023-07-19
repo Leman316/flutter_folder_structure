@@ -61,9 +61,7 @@ showSnackBar(String message, [callback, int duration = 5]) {
   ScaffoldMessenger.of(Get.context!).showSnackBar(snackBar);
 }
 
-datePicker(
-    {required DateTime initialDate,
-    required Null Function(DateTime date) onChange}) async {
+datePicker({required DateTime initialDate, required Null Function(DateTime date) onChange}) async {
   final DateTime? date = await showDatePicker(
     context: Get.context!,
     initialDate: initialDate,
@@ -76,8 +74,7 @@ datePicker(
           colorScheme: ColorScheme.light(
             primary: Theme.of(context).primaryColor,
           ),
-          buttonTheme:
-              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
         ),
         child: child!,
       );
@@ -86,6 +83,14 @@ datePicker(
 
   if (date != null) {
     onChange(date);
+  }
+}
+
+// function for unfocusing keyboard
+unfocusKeyboard() {
+  final FocusScopeNode currentScope = FocusScope.of(Get.context!);
+  if (!currentScope.hasPrimaryFocus && currentScope.hasFocus) {
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 }
 
@@ -140,6 +145,11 @@ readStorage(key) {
 writeStorage(key, value) {
   var box = GetStorage();
   box.write(key, value);
+}
+
+removeStorage(key) {
+  var box = GetStorage();
+  box.remove(key);
 }
 
 dd(object) {
